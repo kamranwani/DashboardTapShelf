@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
   return (
-    <div className="flex items-center justify-between px-8 py-3 bg-neutral-50 mb-2">
-      <div className="serachbar border border-slate-200 p-1 rounded w-1/3 flex items-center gap-2">
+    <div className="block md:flex items-center justify-between px-8 py-3 bg-neutral-50 mb-2">
+      <div className="serachbar border border-slate-200 p-1 rounded w-full md:w-1/3 flex items-center gap-2 mb-2 md:mb-0">
         <span className="text-slate-400">
           <IoIosSearch fontSize={26} />
         </span>

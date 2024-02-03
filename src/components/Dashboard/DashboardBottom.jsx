@@ -10,20 +10,20 @@ function DashboardBottom() {
     useContext(AddProductContext);
   return (
     <div>
-      <header className="flex justify-between items-start mb-6 p-4">
-        <h2 className="text-lg font-medium">Products</h2>
-        <div className="flex gap-4 items-center">
+      <header className="block md:flex justify-between items-start mb-6 p-4">
+        <h2 className="text-lg font-medium mb-2 md:mb-0">Products</h2>
+        <div className="block md:flex gap-4 items-center">
           <button
-            className="bg-blue-600 text-white py-2 px-4 rounded-sm text-sm"
+            className="bg-blue-600 text-white py-2 px-4 rounded-sm text-sm mb-2 md:mb-0"
             onClick={() => setIsAddProduct(true)}
           >
             Add Product
           </button>
-          <button className="flex gap-1 items-center bg-inherit border text-slate-600 py-2 px-4 rounded-sm text-sm">
+          <button className="flex gap-1 items-center bg-inherit border text-slate-600 py-2 px-4 rounded-sm text-sm mb-2 md:mb-0">
             <IoFilterSharp />
             <span> Filters</span>
           </button>
-          <button className="bg-inherit border text-slate-600 py-2 px-4 rounded-sm text-sm">
+          <button className="bg-inherit border text-slate-600 py-2 px-4 rounded-sm text-sm mb-2 md:mb-0">
             Download all
           </button>
         </div>
@@ -31,7 +31,7 @@ function DashboardBottom() {
       <main>
         <PaginatedTable columns={DashboardProductColumns} data={ProductsData} />
       </main>
-      {isAddProduct && <AddProductModal/>}
+      {isAddProduct && <AddProductModal />}
     </div>
   );
 }

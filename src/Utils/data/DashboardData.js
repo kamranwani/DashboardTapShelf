@@ -1,5 +1,3 @@
-
-
 const DashboardProductColumns = [
   {
     Header: "Products",
@@ -11,7 +9,7 @@ const DashboardProductColumns = [
   },
   {
     Header: "Quantity",
-    accessor: "quanity",
+    accessor: "quantity",
   },
   {
     Header: "Threshold Value",

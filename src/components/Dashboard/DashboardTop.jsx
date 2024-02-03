@@ -4,7 +4,7 @@ function DashboardTop() {
   return (
     <div>
       <h2 className="mb-3 text-lg">Overall Inventory</h2>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="border-r">
           <h3 className="text-blue-600 text-sm mb-2">Categories</h3>
           <p className="text-slate-900 text-sm mb-1">14</p>

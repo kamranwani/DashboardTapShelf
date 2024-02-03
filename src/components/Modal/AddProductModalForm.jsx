@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AddProductContext } from "../../context/AddProductContext";
+import { useContext } from "react";
 
 function AddProductModalForm() {
+  const { ProductsData, isAddProduct, setIsAddProduct, setProductsData } =
+    useContext(AddProductContext);
+
   const [productName, setProductName] = useState("");
   const [productID, setProductID] = useState("");
   const [category, setCategory] = useState("");
@@ -11,6 +16,7 @@ function AddProductModalForm() {
   const [unit, setUnit] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [threshold, setThreshold] = useState("");
+  const [availability, setAvailability] = useState("true");
 
   const handleInputChange = (e, setterFunction) => {
     const inputValue = e.target.value;
@@ -20,23 +26,43 @@ function AddProductModalForm() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    
-    if (!productName || !productID || !category || !buyingPrice || !quantity || !unit || !expiryDate || !threshold) {
+    if (
+      !productName ||
+      !productID ||
+      !category ||
+      !buyingPrice ||
+      !quantity ||
+      !unit ||
+      !expiryDate ||
+      !threshold
+    ) {
       toast.error("Please fill in all fields");
       return;
     }
 
-    
-    console.log("Product Name:", productName);
-    console.log("Product ID:", productID);
-    console.log("Category:", category);
-    console.log("Buying Price:", buyingPrice);
-    console.log("Quantity:", quantity);
-    console.log("Unit:", unit);
-    console.log("Expiry Date:", expiryDate);
-    console.log("Threshold:", threshold);
+    // Get current date and time
+    const current_datetime = new Date();
 
-    
+    // Format the datetime as a string
+    const formatted_datetime = current_datetime.toISOString();
+
+    // Create a unique ID using the formatted datetime
+    const unique_id = formatted_datetime.replace(/\D/g, "");
+
+    const newProductObj = {
+      itemName: productName,
+      buyingPrice: buyingPrice,
+      quantity: quantity,
+      thresholdValue: threshold,
+      expiryDate: expiryDate,
+      avaliblity: availability,
+      id: unique_id,
+    };
+    console.log(newProductObj);
+    // Update the state correctly
+    setProductsData([...ProductsData, newProductObj]);
+
+    // Reset form fields
     setProductName("");
     setProductID("");
     setCategory("");
@@ -46,32 +72,38 @@ function AddProductModalForm() {
     setExpiryDate("");
     setThreshold("");
 
-    
+    setIsAddProduct(false);
   };
 
   return (
     <>
       <ToastContainer />
-      <form onSubmit={handleFormSubmit} className="mb-6 px-6">
-        <div className="flex items-center justify-center gap-3 mb-2">
+      <form onSubmit={handleFormSubmit} className="mb-6 px-6 ">
+        <div className="block md:flex items-center justify-center gap-3 mb-2">
           <input
             type="file"
             id="fileInput"
             name="fileInput"
             accept="image/png, image/gif, image/jpeg"
-            className="border border-dashed w-1/3 py-4 px-2 align-center text-xs"
+            className="border border-dashed w-1/3 py-4 px-2 align-center text-xs mb-2 md:mb-0"
           />
-          <div className="text-center">
+          <div className="text-start md:text-center">
             <p className="text-xs  mb-1">Drag Image Here</p>
             <p className="text-xs m-0  ">Or</p>
-            <label htmlFor="fileInput" className="text-xs text-blue-600 m-0 p-0 ">
+            <label
+              htmlFor="fileInput"
+              className="text-xs text-blue-600 m-0 p-0 "
+            >
               Browse Image
             </label>
           </div>
         </div>
 
-        <div className="flex justify-between items-center gap-2 mb-2">
-          <label htmlFor="ProductName" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="ProductName"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Product Name
           </label>
           <input
@@ -85,8 +117,11 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="ProductID" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="ProductID"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Product ID
           </label>
           <input
@@ -100,8 +135,11 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="Category" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="Category"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Category
           </label>
           <input
@@ -115,15 +153,17 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="BuyingPrice" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="BuyingPrice"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Buying Price
           </label>
           <input
             type="number"
             name="numericInput"
             pattern="[0-9]*"
-            inputmode="numeric"
             required
             id="BuyingPrice"
             value={buyingPrice}
@@ -133,15 +173,18 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="Quantity" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="Quantity"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Quantity
           </label>
           <input
             type="number"
             name="numericInput"
             pattern="[0-9]*"
-            inputmode="numeric"
+            inputMode="numeric"
             required
             id="Quantity"
             value={quantity}
@@ -151,15 +194,15 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="Unit" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label htmlFor="Unit" className="flex-2 text-sm mb-2 md:mb-0 block">
             Unit
           </label>
           <input
             type="number"
             name="numericInput"
             pattern="[0-9]*"
-            inputmode="numeric"
+            inputMode="numeric"
             required
             id="Unit"
             value={unit}
@@ -169,8 +212,11 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="expirydate" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="expirydate"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Expiry Date
           </label>
           <input
@@ -185,15 +231,18 @@ function AddProductModalForm() {
           />
         </div>
 
-        <div className="flex justify-between gap-2 items-center mb-2">
-          <label htmlFor="Threshold" className="flex-2 text-sm">
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="Threshold"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
             Threshold
           </label>
           <input
             type="number"
             name="numericInput"
             pattern="[0-9]*"
-            inputmode="numeric"
+            inputMode="numeric"
             required
             id="Threshold"
             value={threshold}
@@ -203,6 +252,38 @@ function AddProductModalForm() {
           />
         </div>
 
+        <div className="block md:flex justify-between items-center gap-2 mb-2 border-b md:mb-6 md:border-none pb-2 md:p-0">
+          <label
+            htmlFor="Availability"
+            className="flex-2 text-sm mb-2 md:mb-0 block"
+          >
+            Availability
+          </label>
+
+          <div className="flex items-center gap-1">
+            <input
+              type="radio"
+              name="availability"
+              value="true"
+              checked={availability === "true"}
+              onChange={() => setAvailability("true")}
+              className=""
+            />
+            <label className="text-sm text-green-500">In Stock</label>
+          </div>
+          <div className="flex items-center gap-1">
+            <input
+              type="radio"
+              name="availability"
+              value="false"
+              checked={availability === "false"}
+              onChange={() => setAvailability("false")}
+              className=""
+            />
+            <label className="text-sm text-red-500">Out of Stock</label>
+          </div>
+        </div>
+
         <div className="flex gap-4 justify-end items-center">
           <button
             onClick={() => setIsAddProduct(false)}
@@ -210,7 +291,11 @@ function AddProductModalForm() {
           >
             Discard
           </button>
-          <button type="submit" onClick={handleFormSubmit} className="bg-blue-600 text-white p-3 rounded text-sm ">
+          <button
+            type="submit"
+            onClick={handleFormSubmit}
+            className="bg-blue-600 text-white p-3 rounded text-sm "
+          >
             Add Product
           </button>
         </div>

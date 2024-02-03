@@ -1,4 +1,3 @@
-// Import necessary dependencies
 import React, { useMemo } from "react";
 import { useTable, usePagination } from "react-table";
 
@@ -54,14 +53,16 @@ const PaginatedTable = ({ columns, data }) => {
                   <td
                     {...cell.getCellProps()}
                     className={`py-2 ${
-                      cell.column.id === "avaliblity"
+                      cell.column.id === "avaliblity" &&
+                      cell.value !== undefined // Add this check
                         ? cell.value.toLowerCase() === "true"
                           ? "text-green-500"
                           : "text-red-500"
                         : ""
                     }`}
                   >
-                    {cell.column.id === "avaliblity"
+                    {cell.column.id === "avaliblity" &&
+                    cell.value !== undefined // Add this check
                       ? cell.value.toLowerCase() === "true"
                         ? "In Stock"
                         : "Not in Stock"

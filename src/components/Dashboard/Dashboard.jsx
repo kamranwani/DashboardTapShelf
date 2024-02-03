@@ -7,7 +7,7 @@ function Dashboard() {
       <div className="flex-grow overflow-y-auto p-4 bg-white rounded mb-4">
         <DashboardTop />
       </div>
-      <div className="flex-grow overflow-y-auto p-4 bg-white rounded">
+      <div className="flex-grow overflow-y-auto bg-white rounded">
         <DashboardBottom />
       </div>
     </div>
